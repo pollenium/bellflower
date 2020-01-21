@@ -1,0 +1,31 @@
+{
+  "name": "pollenium-bellflower",
+  "version": "1.0.0",
+  "description": "",
+  "main": "node/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tsc": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/pollenium/bellflower.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pollenium/bellflower/issues"
+  },
+  "homepage": "https://github.com/pollenium/bellflower#readme",
+  "devDependencies": {
+    "@types/jest": "^24.9.0",
+    "tsc": "^1.20150623.0",
+    "typescript": "^3.7.5"
+  },
+  "dependencies": {
+    "ethers": "^4.0.43",
+    "pollenium-buttercup": "^15.0.0",
+    "pollenium-primrose": "^1.0.0",
+    "pollenium-snowdrop": "^1.0.0"
+  }
+}

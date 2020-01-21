@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "rootDir": "ts",
+    "outDir": "node",
+    "lib": ["es5", "es6"],
+    "esModuleInterop": true,
+    "types": ["jest"],
+    "typeRoots": [
+      "./node_modules/@types"
+    ]
+  }
+}
