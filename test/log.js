@@ -1,13 +1,8 @@
 const Bellflower = require('../node/').Bellflower
 const ethers = require('ethers')
-const dotenv = require('dotenv')
-
-dotenv.config()
-
-const { INFURA_SECRET } = process.env
 
 async function run() {
-  const provider = new ethers.providers.InfuraProvider('homestead', INFURA_SECRET)
+  const provider = new ethers.providers.InfuraProvider('homestead', '65d2ada61dcf458390fd4d18e9d7c9f8')
   const bellflower = new Bellflower(provider)
 
   bellflower.blockSnowdrop.addHandle((block) => {
