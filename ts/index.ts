@@ -44,7 +44,7 @@ export class Bellflower {
       return this.latestBlock
     }
     if (this.latestBlockPrimrose) {
-      return this.latestBlockPrimrose
+      return this.latestBlockPrimrose.promise
     }
     this.latestBlockPrimrose = new Primrose<Block>()
 

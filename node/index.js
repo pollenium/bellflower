@@ -79,7 +79,7 @@ var Bellflower = /** @class */ (function () {
                             return [2 /*return*/, this.latestBlock];
                         }
                         if (this.latestBlockPrimrose) {
-                            return [2 /*return*/, this.latestBlockPrimrose];
+                            return [2 /*return*/, this.latestBlockPrimrose.promise];
                         }
                         this.latestBlockPrimrose = new pollenium_primrose_1.Primrose();
                         return [4 /*yield*/, this.provider.getBlock('latest')];
