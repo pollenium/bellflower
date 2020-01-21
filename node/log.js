@@ -59,11 +59,11 @@ var Bellflower = /** @class */ (function () {
                             hash: pollenium_buttercup_1.Bytes32.fromHexish(ethersBlock.hash),
                             timestamp: ethersBlock.timestamp
                         };
-                        if (this.latestBlockPrimrose) {
-                            this.latestBlockPrimrose.resolve(this.latestBlock);
-                            delete this.latestBlockPrimrose;
+                        if (this.latestBlockPromise) {
+                            this.latestBlockPromise.resolve(this.latestBlock);
+                            delete this.latestBlockPromise;
                         }
-                        this.blockSnowdrop.emitIfHandle(this.latestBlock);
+                        this.blockSnowdrop.emit(this.latestBlock);
                         return [2 /*return*/];
                 }
             });
@@ -71,27 +71,15 @@ var Bellflower = /** @class */ (function () {
     };
     Bellflower.prototype.fetchLatestBlock = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var ethersBlock;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (this.latestBlock) {
-                            return [2 /*return*/, this.latestBlock];
-                        }
-                        if (this.latestBlockPrimrose) {
-                            return [2 /*return*/, this.latestBlockPrimrose];
-                        }
-                        this.latestBlockPrimrose = new pollenium_primrose_1.Primrose();
-                        return [4 /*yield*/, this.provider.getBlock('latest')];
-                    case 1:
-                        ethersBlock = _a.sent();
-                        this.latestBlock = {
-                            number: ethersBlock.number,
-                            hash: pollenium_buttercup_1.Bytes32.fromHexish(ethersBlock.hash),
-                            timestamp: ethersBlock.timestamp
-                        };
-                        return [2 /*return*/, this.latestBlockPrimrose.promise];
+                if (this.latestBlock) {
+                    return [2 /*return*/, this.latestBlock];
                 }
+                if (this.latestBlockPromise) {
+                    return [2 /*return*/, this.latestBlockPromise];
+                }
+                this.latestBlockPromise = new pollenium_primrose_1.Primrose();
+                return [2 /*return*/, this.latestBlockPromise];
             });
         });
     };

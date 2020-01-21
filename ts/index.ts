@@ -12,7 +12,7 @@ export interface Block {
 export class Bellflower {
 
   private latestBlock: Block
-  private latestBlockPromise: Primrose<Block>
+  private latestBlockPrimrose: Primrose<Block>
   readonly blockSnowdrop: Snowdrop<Block> = new Snowdrop<Block>()
 
 
@@ -30,12 +30,12 @@ export class Bellflower {
         timestamp: ethersBlock.timestamp
       }
 
-      if (this.latestBlockPromise) {
-        this.latestBlockPromise.resolve(this.latestBlock)
-        delete this.latestBlockPromise
+      if (this.latestBlockPrimrose) {
+        this.latestBlockPrimrose.resolve(this.latestBlock)
+        delete this.latestBlockPrimrose
       }
 
-      this.blockSnowdrop.emit(this.latestBlock)
+      this.blockSnowdrop.emitIfHandle(this.latestBlock)
     })
   }
 
@@ -43,11 +43,20 @@ export class Bellflower {
     if (this.latestBlock) {
       return this.latestBlock
     }
-    if (this.latestBlockPromise) {
-      return this.latestBlockPromise
+    if (this.latestBlockPrimrose) {
+      return this.latestBlockPrimrose
     }
-    this.latestBlockPromise = new Primrose<Block>()
-    return this.latestBlockPromise
+    this.latestBlockPrimrose = new Primrose<Block>()
+
+    const ethersBlock = await this.provider.getBlock('latest')
+    this.latestBlock = {
+      number: ethersBlock.number,
+      hash: Bytes32.fromHexish(ethersBlock.hash),
+      timestamp: ethersBlock.timestamp
+    }
+
+
+    return this.latestBlockPrimrose.promise
   }
 
 }
