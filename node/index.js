@@ -39,6 +39,7 @@ exports.__esModule = true;
 var pollenium_snowdrop_1 = require("pollenium-snowdrop");
 var pollenium_buttercup_1 = require("pollenium-buttercup");
 var pollenium_primrose_1 = require("pollenium-primrose");
+var pollenium_uvaursi_1 = require("pollenium-uvaursi");
 var Bellflower = /** @class */ (function () {
     function Bellflower(provider) {
         this.provider = provider;
@@ -56,14 +57,14 @@ var Bellflower = /** @class */ (function () {
                         ethersBlock = _a.sent();
                         this.latestBlock = {
                             number: ethersBlock.number,
-                            hash: pollenium_buttercup_1.Bytes32.fromHexish(ethersBlock.hash),
+                            hash: new pollenium_buttercup_1.Bytes32(pollenium_uvaursi_1.Uu.fromHexish(ethersBlock.hash)),
                             timestamp: ethersBlock.timestamp
                         };
                         if (this.latestBlockPrimrose) {
                             this.latestBlockPrimrose.resolve(this.latestBlock);
                             delete this.latestBlockPrimrose;
                         }
-                        this.blockSnowdrop.emitIfHandle(this.latestBlock);
+                        this.blockSnowdrop.emit(this.latestBlock);
                         return [2 /*return*/];
                 }
             });
@@ -87,7 +88,7 @@ var Bellflower = /** @class */ (function () {
                         ethersBlock = _a.sent();
                         this.latestBlock = {
                             number: ethersBlock.number,
-                            hash: pollenium_buttercup_1.Bytes32.fromHexish(ethersBlock.hash),
+                            hash: new pollenium_buttercup_1.Bytes32(pollenium_uvaursi_1.Uu.fromHexish(ethersBlock.hash)),
                             timestamp: ethersBlock.timestamp
                         };
                         return [2 /*return*/, this.latestBlockPrimrose.promise];

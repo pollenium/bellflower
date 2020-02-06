@@ -6,12 +6,12 @@ async function run() {
   const bellflower = new Bellflower(provider)
 
   bellflower.blockSnowdrop.addHandle((block) => {
-    console.log('new', block.number, block.timestamp, block.hash.getHex())
+    console.log('new', block.number, block.timestamp, block.hash.uu.toHex())
   })
 
   setInterval(() => {
     bellflower.fetchLatestBlock().then((block) => {
-      console.log('latest', block.number, block.timestamp, block.hash.getHex())
+      console.log('latest', block.number, block.timestamp, block.hash.uu.toHex())
     })
   }, 1000)
 

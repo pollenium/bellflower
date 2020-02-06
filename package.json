@@ -25,8 +25,8 @@
   },
   "dependencies": {
     "ethers": "^4.0.43",
-    "pollenium-buttercup": "^15.0.0",
+    "pollenium-buttercup": "^18.4.0",
     "pollenium-primrose": "^3.0.0",
-    "pollenium-snowdrop": "^1.0.0"
+    "pollenium-snowdrop": "^2.0.1"
   }
 }
