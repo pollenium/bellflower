@@ -13,5 +13,5 @@ export declare class Bellflower {
     readonly blockSnowdrop: Snowdrop<Block>;
     constructor(provider: ethers.providers.Provider);
     private linkProviderOnBlock;
-    private fetchLatestBlock;
+    fetchLatestBlock(): Promise<Block>;
 }

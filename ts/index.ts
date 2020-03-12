@@ -40,7 +40,7 @@ export class Bellflower {
     })
   }
 
-  private async fetchLatestBlock(): Promise<Block> {
+  async fetchLatestBlock(): Promise<Block> {
     if (this.latestBlock) {
       return this.latestBlock
     }
