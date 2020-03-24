@@ -25,18 +25,11 @@ export class Bellflower {
   private linkProviderOnBlock() {
     this.provider.on('block', async (blockNumber: number) => {
       const ethersBlock = await this.provider.getBlock(blockNumber)
-      this.latestBlock = {
+      this.setLatestBlock({
         number: Uint256.fromNumber(ethersBlock.number),
         hash: new Bytes32(Uu.fromHexish(ethersBlock.hash)),
         timestamp: Uint256.fromNumber(ethersBlock.timestamp)
-      }
-
-      if (this.latestBlockPrimrose) {
-        this.latestBlockPrimrose.resolve(this.latestBlock)
-        delete this.latestBlockPrimrose
-      }
-
-      this.blockSnowdrop.emit(this.latestBlock)
+      })
     })
   }
 
@@ -49,14 +42,26 @@ export class Bellflower {
     }
     this.latestBlockPrimrose = new Primrose<Block>()
 
-    const ethersBlock = await this.provider.getBlock('latest')
-    this.latestBlock = {
-      number: Uint256.fromNumber(ethersBlock.number),
-      hash: new Bytes32(Uu.fromHexish(ethersBlock.hash)),
-      timestamp: Uint256.fromNumber(ethersBlock.timestamp)
-    }
+    this.provider.getBlock('latest').then((ethersBlock) => {
+      this.setLatestBlock({
+        number: Uint256.fromNumber(ethersBlock.number),
+        hash: new Bytes32(Uu.fromHexish(ethersBlock.hash)),
+        timestamp: Uint256.fromNumber(ethersBlock.timestamp)
+      })
+    })
 
     return this.latestBlockPrimrose.promise
+  }
+
+  private setLatestBlock(block: Block) {
+    this.latestBlock = block
+
+    if (this.latestBlockPrimrose) {
+      this.latestBlockPrimrose.resolve(block)
+      delete this.latestBlockPrimrose
+    }
+
+    this.blockSnowdrop.emit(block)
   }
 
 }

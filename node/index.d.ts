@@ -14,4 +14,5 @@ export declare class Bellflower {
     constructor(provider: ethers.providers.Provider);
     private linkProviderOnBlock;
     fetchLatestBlock(): Promise<Block>;
+    private setLatestBlock;
 }

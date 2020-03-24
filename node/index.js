@@ -55,16 +55,11 @@ var Bellflower = /** @class */ (function () {
                     case 0: return [4 /*yield*/, this.provider.getBlock(blockNumber)];
                     case 1:
                         ethersBlock = _a.sent();
-                        this.latestBlock = {
+                        this.setLatestBlock({
                             number: pollenium_buttercup_1.Uint256.fromNumber(ethersBlock.number),
                             hash: new pollenium_buttercup_1.Bytes32(pollenium_uvaursi_1.Uu.fromHexish(ethersBlock.hash)),
                             timestamp: pollenium_buttercup_1.Uint256.fromNumber(ethersBlock.timestamp)
-                        };
-                        if (this.latestBlockPrimrose) {
-                            this.latestBlockPrimrose.resolve(this.latestBlock);
-                            delete this.latestBlockPrimrose;
-                        }
-                        this.blockSnowdrop.emit(this.latestBlock);
+                        });
                         return [2 /*return*/];
                 }
             });
@@ -72,29 +67,33 @@ var Bellflower = /** @class */ (function () {
     };
     Bellflower.prototype.fetchLatestBlock = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var ethersBlock;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (this.latestBlock) {
-                            return [2 /*return*/, this.latestBlock];
-                        }
-                        if (this.latestBlockPrimrose) {
-                            return [2 /*return*/, this.latestBlockPrimrose.promise];
-                        }
-                        this.latestBlockPrimrose = new pollenium_primrose_1.Primrose();
-                        return [4 /*yield*/, this.provider.getBlock('latest')];
-                    case 1:
-                        ethersBlock = _a.sent();
-                        this.latestBlock = {
-                            number: pollenium_buttercup_1.Uint256.fromNumber(ethersBlock.number),
-                            hash: new pollenium_buttercup_1.Bytes32(pollenium_uvaursi_1.Uu.fromHexish(ethersBlock.hash)),
-                            timestamp: pollenium_buttercup_1.Uint256.fromNumber(ethersBlock.timestamp)
-                        };
-                        return [2 /*return*/, this.latestBlockPrimrose.promise];
+                if (this.latestBlock) {
+                    return [2 /*return*/, this.latestBlock];
                 }
+                if (this.latestBlockPrimrose) {
+                    return [2 /*return*/, this.latestBlockPrimrose.promise];
+                }
+                this.latestBlockPrimrose = new pollenium_primrose_1.Primrose();
+                this.provider.getBlock('latest').then(function (ethersBlock) {
+                    _this.setLatestBlock({
+                        number: pollenium_buttercup_1.Uint256.fromNumber(ethersBlock.number),
+                        hash: new pollenium_buttercup_1.Bytes32(pollenium_uvaursi_1.Uu.fromHexish(ethersBlock.hash)),
+                        timestamp: pollenium_buttercup_1.Uint256.fromNumber(ethersBlock.timestamp)
+                    });
+                });
+                return [2 /*return*/, this.latestBlockPrimrose.promise];
             });
         });
+    };
+    Bellflower.prototype.setLatestBlock = function (block) {
+        this.latestBlock = block;
+        if (this.latestBlockPrimrose) {
+            this.latestBlockPrimrose.resolve(block);
+            delete this.latestBlockPrimrose;
+        }
+        this.blockSnowdrop.emit(block);
     };
     return Bellflower;
 }());
