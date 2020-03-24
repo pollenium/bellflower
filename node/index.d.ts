@@ -1,10 +1,10 @@
 import ethers from 'ethers';
 import { Snowdrop } from 'pollenium-snowdrop';
-import { Bytes32 } from 'pollenium-buttercup';
+import { Bytes32, Uint256 } from 'pollenium-buttercup';
 export interface Block {
-    number: number;
+    number: Uint256;
     hash: Bytes32;
-    timestamp: number;
+    timestamp: Uint256;
 }
 export declare class Bellflower {
     readonly provider: ethers.providers.Provider;

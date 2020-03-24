@@ -56,9 +56,9 @@ var Bellflower = /** @class */ (function () {
                     case 1:
                         ethersBlock = _a.sent();
                         this.latestBlock = {
-                            number: ethersBlock.number,
+                            number: pollenium_buttercup_1.Uint256.fromNumber(ethersBlock.number),
                             hash: new pollenium_buttercup_1.Bytes32(pollenium_uvaursi_1.Uu.fromHexish(ethersBlock.hash)),
-                            timestamp: ethersBlock.timestamp
+                            timestamp: pollenium_buttercup_1.Uint256.fromNumber(ethersBlock.timestamp)
                         };
                         if (this.latestBlockPrimrose) {
                             this.latestBlockPrimrose.resolve(this.latestBlock);
@@ -87,9 +87,9 @@ var Bellflower = /** @class */ (function () {
                     case 1:
                         ethersBlock = _a.sent();
                         this.latestBlock = {
-                            number: ethersBlock.number,
+                            number: pollenium_buttercup_1.Uint256.fromNumber(ethersBlock.number),
                             hash: new pollenium_buttercup_1.Bytes32(pollenium_uvaursi_1.Uu.fromHexish(ethersBlock.hash)),
-                            timestamp: ethersBlock.timestamp
+                            timestamp: pollenium_buttercup_1.Uint256.fromNumber(ethersBlock.timestamp)
                         };
                         return [2 /*return*/, this.latestBlockPrimrose.promise];
                 }

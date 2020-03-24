@@ -4,7 +4,7 @@
   "description": "",
   "main": "node/index.js",
   "scripts": {
-    "test": "forever --watch test/log.js",
+    "test": "forever --watch ./node/test/log.js",
     "tsc": "tsc"
   },
   "repository": {
@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "ethers": "^4.0.43",
-    "pollenium-buttercup": "^18.4.0",
+    "pollenium-buttercup": "^19.2.0",
     "pollenium-primrose": "^3.0.0",
     "pollenium-snowdrop": "^2.0.1"
   }

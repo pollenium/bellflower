@@ -1,13 +1,13 @@
 import ethers from 'ethers'
 import { Snowdrop } from 'pollenium-snowdrop'
-import { Bytes32 } from 'pollenium-buttercup'
+import { Bytes32, Uint256 } from 'pollenium-buttercup'
 import { Primrose } from 'pollenium-primrose'
 import { Uu } from 'pollenium-uvaursi'
 
 export interface Block {
-  number: number,
+  number: Uint256,
   hash: Bytes32,
-  timestamp: number
+  timestamp: Uint256
 }
 
 export class Bellflower {
@@ -26,9 +26,9 @@ export class Bellflower {
     this.provider.on('block', async (blockNumber: number) => {
       const ethersBlock = await this.provider.getBlock(blockNumber)
       this.latestBlock = {
-        number: ethersBlock.number,
+        number: Uint256.fromNumber(ethersBlock.number),
         hash: new Bytes32(Uu.fromHexish(ethersBlock.hash)),
-        timestamp: ethersBlock.timestamp
+        timestamp: Uint256.fromNumber(ethersBlock.timestamp)
       }
 
       if (this.latestBlockPrimrose) {
@@ -51,9 +51,9 @@ export class Bellflower {
 
     const ethersBlock = await this.provider.getBlock('latest')
     this.latestBlock = {
-      number: ethersBlock.number,
+      number: Uint256.fromNumber(ethersBlock.number),
       hash: new Bytes32(Uu.fromHexish(ethersBlock.hash)),
-      timestamp: ethersBlock.timestamp
+      timestamp: Uint256.fromNumber(ethersBlock.timestamp)
     }
 
     return this.latestBlockPrimrose.promise
