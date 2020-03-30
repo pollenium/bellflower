@@ -11,13 +11,17 @@ async function run() {
   const provider = new ethers.providers.InfuraProvider('homestead', '65d2ada61dcf458390fd4d18e9d7c9f8')
   const bellflower = new Bellflower(provider)
 
-  bellflower.blockSnowdrop.addHandle((block) => {
-    console.log('new', block.number.toNumberString(10), block.timestamp.toNumberString(10), block.hash.uu.toHex())
+  bellflower.fetchLatestBlockIndex().then((blockIndex) => {
+    console.log('latest', blockIndex.toNumberString(10))
+  })
+
+  bellflower.blockIndexSnowdrop.addHandle((blockIndex) => {
+    console.log('new', blockIndex.toNumberString(10))
   })
 
   setInterval(() => {
-    bellflower.fetchLatestBlock().then((block) => {
-      console.log('latest', block.number.toNumberString(10), block.timestamp.toNumberString(10), block.hash.uu.toHex())
+    bellflower.fetchLatestBlockIndex().then((blockIndex) => {
+      console.log('latest', blockIndex.toNumberString(10))
     })
   }, 1000)
 

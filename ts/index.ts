@@ -4,17 +4,11 @@ import { Bytes32, Uint256 } from 'pollenium-buttercup'
 import { Primrose } from 'pollenium-primrose'
 import { Uu } from 'pollenium-uvaursi'
 
-export interface Block {
-  number: Uint256,
-  hash: Bytes32,
-  timestamp: Uint256
-}
-
 export class Bellflower {
 
-  private latestBlock: Block
-  private latestBlockPrimrose: Primrose<Block>
-  readonly blockSnowdrop: Snowdrop<Block> = new Snowdrop<Block>()
+  private latestBlockIndex: Uint256
+  private latestBlockIndexPrimrose: Primrose<Uint256>
+  readonly blockIndexSnowdrop: Snowdrop<Uint256> = new Snowdrop<Uint256>()
 
 
   constructor(readonly provider: ethers.providers.Provider) {
@@ -23,45 +17,37 @@ export class Bellflower {
 
 
   private linkProviderOnBlock() {
-    this.provider.on('block', async (blockNumber: number) => {
-      const ethersBlock = await this.provider.getBlock(blockNumber)
-      this.setLatestBlock({
-        number: Uint256.fromNumber(ethersBlock.number),
-        hash: new Bytes32(Uu.fromHexish(ethersBlock.hash)),
-        timestamp: Uint256.fromNumber(ethersBlock.timestamp)
-      })
+    this.provider.on('block', async (blockIndexNumber: number) => {
+      const blockIndex = new Uint256(blockIndexNumber)
+      this.setLatestBlockIndex(new Uint256(blockIndexNumber))
+      this.blockIndexSnowdrop.emit(blockIndex)
     })
   }
 
-  async fetchLatestBlock(): Promise<Block> {
-    if (this.latestBlock) {
-      return this.latestBlock
+  async fetchLatestBlockIndex(): Promise<Uint256> {
+    if (this.latestBlockIndex) {
+      return this.latestBlockIndex
     }
-    if (this.latestBlockPrimrose) {
-      return this.latestBlockPrimrose.promise
+    if (this.latestBlockIndexPrimrose) {
+      return this.latestBlockIndexPrimrose.promise
     }
-    this.latestBlockPrimrose = new Primrose<Block>()
+    this.latestBlockIndexPrimrose = new Primrose<Uint256>()
 
-    this.provider.getBlock('latest').then((ethersBlock) => {
-      this.setLatestBlock({
-        number: Uint256.fromNumber(ethersBlock.number),
-        hash: new Bytes32(Uu.fromHexish(ethersBlock.hash)),
-        timestamp: Uint256.fromNumber(ethersBlock.timestamp)
-      })
+    this.provider.getBlockNumber().then((blockIndexNumber: number) => {
+      const blockIndex = new Uint256(blockIndexNumber)
+      this.setLatestBlockIndex(new Uint256(blockIndexNumber))
     })
 
-    return this.latestBlockPrimrose.promise
+    return this.latestBlockIndexPrimrose.promise
   }
 
-  private setLatestBlock(block: Block) {
-    this.latestBlock = block
+  private setLatestBlockIndex(blockIndex: Uint256) {
+    this.latestBlockIndex = blockIndex
 
-    if (this.latestBlockPrimrose) {
-      this.latestBlockPrimrose.resolve(block)
-      delete this.latestBlockPrimrose
+    if (this.latestBlockIndexPrimrose) {
+      this.latestBlockIndexPrimrose.resolve(blockIndex)
+      delete this.latestBlockIndexPrimrose
     }
-
-    this.blockSnowdrop.emit(block)
   }
 
 }

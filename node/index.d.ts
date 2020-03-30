@@ -1,18 +1,13 @@
 import ethers from 'ethers';
 import { Snowdrop } from 'pollenium-snowdrop';
-import { Bytes32, Uint256 } from 'pollenium-buttercup';
-export interface Block {
-    number: Uint256;
-    hash: Bytes32;
-    timestamp: Uint256;
-}
+import { Uint256 } from 'pollenium-buttercup';
 export declare class Bellflower {
     readonly provider: ethers.providers.Provider;
-    private latestBlock;
-    private latestBlockPrimrose;
-    readonly blockSnowdrop: Snowdrop<Block>;
+    private latestBlockIndex;
+    private latestBlockIndexPrimrose;
+    readonly blockIndexSnowdrop: Snowdrop<Uint256>;
     constructor(provider: ethers.providers.Provider);
     private linkProviderOnBlock;
-    fetchLatestBlock(): Promise<Block>;
-    private setLatestBlock;
+    fetchLatestBlockIndex(): Promise<Uint256>;
+    private setLatestBlockIndex;
 }

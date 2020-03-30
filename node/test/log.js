@@ -44,12 +44,15 @@ function run() {
         return __generator(this, function (_a) {
             provider = new ethers_1.ethers.providers.InfuraProvider('homestead', '65d2ada61dcf458390fd4d18e9d7c9f8');
             bellflower = new __1.Bellflower(provider);
-            bellflower.blockSnowdrop.addHandle(function (block) {
-                console.log('new', block.number.toNumberString(10), block.timestamp.toNumberString(10), block.hash.uu.toHex());
+            bellflower.fetchLatestBlockIndex().then(function (blockIndex) {
+                console.log('latest', blockIndex.toNumberString(10));
+            });
+            bellflower.blockIndexSnowdrop.addHandle(function (blockIndex) {
+                console.log('new', blockIndex.toNumberString(10));
             });
             setInterval(function () {
-                bellflower.fetchLatestBlock().then(function (block) {
-                    console.log('latest', block.number.toNumberString(10), block.timestamp.toNumberString(10), block.hash.uu.toHex());
+                bellflower.fetchLatestBlockIndex().then(function (blockIndex) {
+                    console.log('latest', blockIndex.toNumberString(10));
                 });
             }, 1000);
             return [2 /*return*/];

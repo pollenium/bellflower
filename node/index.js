@@ -39,61 +39,49 @@ exports.__esModule = true;
 var pollenium_snowdrop_1 = require("pollenium-snowdrop");
 var pollenium_buttercup_1 = require("pollenium-buttercup");
 var pollenium_primrose_1 = require("pollenium-primrose");
-var pollenium_uvaursi_1 = require("pollenium-uvaursi");
 var Bellflower = /** @class */ (function () {
     function Bellflower(provider) {
         this.provider = provider;
-        this.blockSnowdrop = new pollenium_snowdrop_1.Snowdrop();
+        this.blockIndexSnowdrop = new pollenium_snowdrop_1.Snowdrop();
         this.linkProviderOnBlock();
     }
     Bellflower.prototype.linkProviderOnBlock = function () {
         var _this = this;
-        this.provider.on('block', function (blockNumber) { return __awaiter(_this, void 0, void 0, function () {
-            var ethersBlock;
+        this.provider.on('block', function (blockIndexNumber) { return __awaiter(_this, void 0, void 0, function () {
+            var blockIndex;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.provider.getBlock(blockNumber)];
-                    case 1:
-                        ethersBlock = _a.sent();
-                        this.setLatestBlock({
-                            number: pollenium_buttercup_1.Uint256.fromNumber(ethersBlock.number),
-                            hash: new pollenium_buttercup_1.Bytes32(pollenium_uvaursi_1.Uu.fromHexish(ethersBlock.hash)),
-                            timestamp: pollenium_buttercup_1.Uint256.fromNumber(ethersBlock.timestamp)
-                        });
-                        return [2 /*return*/];
-                }
+                blockIndex = new pollenium_buttercup_1.Uint256(blockIndexNumber);
+                this.setLatestBlockIndex(new pollenium_buttercup_1.Uint256(blockIndexNumber));
+                this.blockIndexSnowdrop.emit(blockIndex);
+                return [2 /*return*/];
             });
         }); });
     };
-    Bellflower.prototype.fetchLatestBlock = function () {
+    Bellflower.prototype.fetchLatestBlockIndex = function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                if (this.latestBlock) {
-                    return [2 /*return*/, this.latestBlock];
+                if (this.latestBlockIndex) {
+                    return [2 /*return*/, this.latestBlockIndex];
                 }
-                if (this.latestBlockPrimrose) {
-                    return [2 /*return*/, this.latestBlockPrimrose.promise];
+                if (this.latestBlockIndexPrimrose) {
+                    return [2 /*return*/, this.latestBlockIndexPrimrose.promise];
                 }
-                this.latestBlockPrimrose = new pollenium_primrose_1.Primrose();
-                this.provider.getBlock('latest').then(function (ethersBlock) {
-                    _this.setLatestBlock({
-                        number: pollenium_buttercup_1.Uint256.fromNumber(ethersBlock.number),
-                        hash: new pollenium_buttercup_1.Bytes32(pollenium_uvaursi_1.Uu.fromHexish(ethersBlock.hash)),
-                        timestamp: pollenium_buttercup_1.Uint256.fromNumber(ethersBlock.timestamp)
-                    });
+                this.latestBlockIndexPrimrose = new pollenium_primrose_1.Primrose();
+                this.provider.getBlockNumber().then(function (blockIndexNumber) {
+                    var blockIndex = new pollenium_buttercup_1.Uint256(blockIndexNumber);
+                    _this.setLatestBlockIndex(new pollenium_buttercup_1.Uint256(blockIndexNumber));
                 });
-                return [2 /*return*/, this.latestBlockPrimrose.promise];
+                return [2 /*return*/, this.latestBlockIndexPrimrose.promise];
             });
         });
     };
-    Bellflower.prototype.setLatestBlock = function (block) {
-        this.latestBlock = block;
-        if (this.latestBlockPrimrose) {
-            this.latestBlockPrimrose.resolve(block);
-            delete this.latestBlockPrimrose;
+    Bellflower.prototype.setLatestBlockIndex = function (blockIndex) {
+        this.latestBlockIndex = blockIndex;
+        if (this.latestBlockIndexPrimrose) {
+            this.latestBlockIndexPrimrose.resolve(blockIndex);
+            delete this.latestBlockIndexPrimrose;
         }
-        this.blockSnowdrop.emit(block);
     };
     return Bellflower;
 }());
