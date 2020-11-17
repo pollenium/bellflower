@@ -24,7 +24,7 @@
     "typescript": "^3.7.5"
   },
   "dependencies": {
-    "ethers": "^4.0.43",
+    "ethers": "^5.0.19",
     "pollenium-buttercup": "^19.2.0",
     "pollenium-primrose": "^3.0.0",
     "pollenium-snowdrop": "^2.0.1"
